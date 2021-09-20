@@ -13,9 +13,10 @@ import java.util.Arrays;
 import java.util.List;
 
 @Component
-@Scope("prototype") //prototype , request, session, websocket
+@Scope //prototype , request, session, websocket
 @Slf4j
 public class MyBean {
+
 
     @Autowired
     private ApplicationArguments applicationArguments;
@@ -39,5 +40,6 @@ public class MyBean {
         log.info("Name is {}" , name);
 
         Arrays.stream(applicationArguments.getSourceArgs()).forEach(s -> log.info(s.toString()));
+
     }
 }

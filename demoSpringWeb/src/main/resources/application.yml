@@ -1,0 +1,45 @@
+server:
+  port: 9099
+
+contact:
+  name: nila
+  address:
+    houseNumber: 36
+    postcode: rg401gj
+
+management:
+  server:
+    port: 9098
+  endpoints:
+    web.exposure.include: '*'
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true
+    prometheus:
+      enabled: true
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+contact:
+  name: dummy
+  address:
+    houseNumber: 360
+    postcode: rg401gj1
+
+---
+spring:
+  config:
+    activate:
+      on-profile: preprod
+
+contact:
+  name: dummy1
+  address:
+    houseNumber: 360
+    postcode: rg401gj1
