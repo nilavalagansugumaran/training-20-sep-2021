@@ -1,6 +1,8 @@
 package com.example.demoSpringRestService.service;
 
 import com.example.demoSpringRestService.model.Employee;
+import com.example.demoSpringRestService.repository.EmployeeJDBCRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -14,6 +16,9 @@ import java.util.stream.Collectors;
 @Service
 public class EmployeeService {
 
+    @Autowired
+    private EmployeeJDBCRepository repository;
+
     private ConcurrentHashMap<Long, Employee> mockDB = new ConcurrentHashMap<>();
 
     public List<Employee> getAllEmployees(){
@@ -21,15 +26,22 @@ public class EmployeeService {
     }
 
     public Employee getEmployee(Long id){
-        if( mockDB.containsKey(id)) {
-                return mockDB.get(id);
+//        if( mockDB.containsKey(id)) {
+//                return mockDB.get(id);
+//        }
+        Employee employee = repository.readEmployee(id);
+        if(employee == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found");
+        } else {
+            return employee;
         }
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found");
     }
 
     public Employee createEmployee(Employee e) {
-        mockDB.putIfAbsent(e.getId(), e);
-        return e;
+//        mockDB.putIfAbsent(e.getId(), e);
+//        return e;
+
+       return repository.createEmployee(e);
     }
 
     public void deleteEmployee(Long id) {
