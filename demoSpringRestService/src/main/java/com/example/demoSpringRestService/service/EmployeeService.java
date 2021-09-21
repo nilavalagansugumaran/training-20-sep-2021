@@ -1,7 +1,9 @@
 package com.example.demoSpringRestService.service;
 
 import com.example.demoSpringRestService.model.Employee;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.annotation.PostConstruct;
 import java.util.concurrent.ConcurrentHashMap;
@@ -13,6 +15,28 @@ public class EmployeeService {
 
     public Employee getEmployee(){
         return mockDB.get(101L);
+    }
+
+    public Employee getEmployee(Long id){
+        if( mockDB.containsKey(id)) {
+                return mockDB.get(id);
+        }
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found");
+    }
+
+    public Employee createEmployee(Employee e) {
+        mockDB.putIfAbsent(e.getId(), e);
+        return e;
+    }
+
+    public void deleteEmployee(Long id) {
+        getEmployee(id);
+        mockDB.remove(id);
+    }
+
+    public void updateEmployee(Long id, Employee e) {
+        getEmployee(id);
+        mockDB.put(id, e);
     }
 
     @PostConstruct
