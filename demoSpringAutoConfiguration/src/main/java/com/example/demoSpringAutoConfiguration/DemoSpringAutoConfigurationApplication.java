@@ -10,8 +10,9 @@ public class DemoSpringAutoConfigurationApplication {
 
 	public static void main(String[] args) {
 		ApplicationContext ctx = SpringApplication.run(DemoSpringAutoConfigurationApplication.class, args);
-		ctx.getBean("currentAccount", BankAccount.class).deposit();
-		ctx.getBean("savingsAccount", BankAccount.class).deposit();
+		//ctx.getBean("currentAccount", BankAccount.class).deposit();
+		//ctx.getBean("savingsAccount", BankAccount.class).deposit();
+		ctx.getBean(BankAccount.class).deposit();
 	}
 
 }
