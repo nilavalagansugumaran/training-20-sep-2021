@@ -11,7 +11,7 @@ import javax.annotation.PostConstruct;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-@Repository
+//@Repository - Enable this if you want to run with JDBC
 public class EmployeeJDBCRepository {
 
     @Autowired

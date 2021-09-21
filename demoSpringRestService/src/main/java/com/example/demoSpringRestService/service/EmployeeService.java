@@ -2,6 +2,7 @@ package com.example.demoSpringRestService.service;
 
 import com.example.demoSpringRestService.model.Employee;
 import com.example.demoSpringRestService.repository.EmployeeJDBCRepository;
+import com.example.demoSpringRestService.repository.EmployeeJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -16,8 +17,11 @@ import java.util.stream.Collectors;
 @Service
 public class EmployeeService {
 
+//    @Autowired
+//    private EmployeeJDBCRepository repository;
+
     @Autowired
-    private EmployeeJDBCRepository repository;
+    private EmployeeJPARepository repository;
 
     private ConcurrentHashMap<Long, Employee> mockDB = new ConcurrentHashMap<>();
 
