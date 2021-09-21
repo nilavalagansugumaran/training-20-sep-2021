@@ -6,15 +6,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @Service
 public class EmployeeService {
 
     private ConcurrentHashMap<Long, Employee> mockDB = new ConcurrentHashMap<>();
 
-    public Employee getEmployee(){
-        return mockDB.get(101L);
+    public List<Employee> getAllEmployees(){
+        return mockDB.entrySet().stream().map(Map.Entry::getValue).collect(Collectors.toList());
     }
 
     public Employee getEmployee(Long id){
