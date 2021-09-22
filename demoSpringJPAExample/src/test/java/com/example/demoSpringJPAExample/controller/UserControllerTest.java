@@ -42,6 +42,8 @@ class UserControllerTest {
     @Test
     void test_creation_of_user(){
 
+        // {"id": 123, "name": "nila" }
+
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
         headers.add("Accept", "application/json");
