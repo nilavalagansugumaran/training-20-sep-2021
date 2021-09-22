@@ -15,7 +15,9 @@ public class SenderComponent {
     public void sendUserData() {
         log.info("Sending user data starts...");
         rabbitTemplate.convertAndSend("ex.nila.exchange",
-                "k.nila.key", User.builder().id(123).name("nila").build(), message -> {
+                "k.nila.key",
+                User.builder().id(123).name("nila").build(),
+                message -> {
                     message.getMessageProperties().setHeader("myheader", "header value");
                     return message;
                 });
