@@ -4,8 +4,14 @@ import com.example.demoSpringJPAExample.models.User;
 import com.example.demoSpringJPAExample.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 public class UserController {
@@ -27,7 +33,7 @@ public class UserController {
 
     @PostMapping(path ="/user")
     @ResponseStatus(HttpStatus.CREATED)
-    public User createUser(@RequestBody User user){
+    public User createUser(@Valid @RequestBody User user){
         return repository.save(user);
     }
 
@@ -39,10 +45,22 @@ public class UserController {
     }
 
     @PutMapping(path ="/user/{id}")
-    public void updateUser(@PathVariable("id") Long id, @RequestBody User user){
+    public void updateUser(@PathVariable("id") Long id, @Valid @RequestBody User user){
         User userFromDB = getUser(id);
         userFromDB.setName(user.getName());
         repository.save(userFromDB);
 
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Map<String, String> handleMethodArgException(MethodArgumentNotValidException exception){
+        Map<String,String> errorMap = new HashMap<>();
+        exception.getBindingResult().getAllErrors().forEach((error)->{
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errorMap.put(fieldName, errorMessage);
+        });
+        return errorMap;
     }
 }
